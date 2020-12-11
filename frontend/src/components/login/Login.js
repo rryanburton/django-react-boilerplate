@@ -1,15 +1,13 @@
 // frontend/src/components/login/Login.js
 
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import {
-  Container,
-  Button,
-  Row,
-  Col,
-  Form,
-  FormControl
-} from "react-bootstrap";
+import { Container, Button, Row, Col, Form } from "react-bootstrap";
+
+import { login } from "./LoginActions.js";
 
 class Login extends Component {
   constructor(props) {
@@ -28,7 +26,7 @@ class Login extends Component {
       username: this.state.username,
       password: this.state.password
     };
-    console.log("Login " + userData.username + " " + userData.password);
+    this.props.login(userData, "/dashboard"); // <--- login request
   };
   render() {
     return (
@@ -46,7 +44,6 @@ class Login extends Component {
                   value={this.state.username}
                   onChange={this.onChange}
                 />
-                <FormControl.Feedback type="invalid"></FormControl.Feedback>
               </Form.Group>
 
               <Form.Group controlId="passwordId">
@@ -58,10 +55,11 @@ class Login extends Component {
                   value={this.state.password}
                   onChange={this.onChange}
                 />
-                <Form.Control.Feedback type="invalid"></Form.Control.Feedback>
               </Form.Group>
             </Form>
-            <Button color="primary" onClick={this.onLoginClick}>Login</Button>
+            <Button color="primary" onClick={this.onLoginClick}>
+              Login
+            </Button>
             <p className="mt-2">
               Don't have account? <Link to="/signup">Signup</Link>
             </p>
@@ -72,4 +70,16 @@ class Login extends Component {
   }
 }
 
-export default Login;
+// connect action and store and component
+Login.propTypes = {
+  login: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, {
+  login
+})(withRouter(Login));
