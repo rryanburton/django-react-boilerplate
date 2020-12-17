@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'app.accounts',
+    'app.notes',
 
 ]
 

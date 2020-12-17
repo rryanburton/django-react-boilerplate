@@ -18,9 +18,11 @@ from django.urls import path
 
 
 from app.accounts.urls import accounts_urlpatterns
+from app.notes.urls import notes_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
 urlpatterns += accounts_urlpatterns # add URLs for authentication
+urlpatterns += notes_urlpatterns    # notes URLs
